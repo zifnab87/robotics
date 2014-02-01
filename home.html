@@ -107,7 +107,7 @@ function my_init() {
     textbar.style.height = 20;
     textbar.style.backgroundColor = "black";
     textbar.style.color = "#00ff00";
-    textbar.innerHTML = "Welcome to 3jsbot. I want to see some text. Too much coffee?";
+    //textbar.innerHTML = "Welcome to 3jsbot. I want to see some text. Too much coffee?";
     textbar.style.top = 10 + 'px';
     textbar.style.left = 10 + 'px';
     document.body.appendChild(textbar);
@@ -177,17 +177,31 @@ function init_robot_joints() {
 //////////////////////////////////////////////////
 
 // CS148: my_animate is where your robot's controls and movement are updated over time
+var yTranslate = 0;
+
 function my_animate() {
 
     // CS148: INITIAL GETTING FAMILIAR CODE  (START HERE)
 
     // keyboard is threejs helper for reading keyboard state
-    if (keyboard.pressed("x")) 
+    var sleepModeOn = false;
+    if (keyboard.pressed("x")) {
         textbar.innerHTML = "moving up";  // make the pieces move up
-    else if (keyboard.pressed("z")) 
+        yTranslate += 0.02;
+    }
+    else if (keyboard.pressed("c")){
+        textbar.innerHTML = "moving down";  // make the pieces move up
+        yTranslate -= 0.02;
+    }
+    else if (keyboard.pressed("z")) {
         textbar.innerHTML = "zzzzzz";  // stop jittering the pieces
+        sleepModeOn = true;
+    }
     else {
+        
         // make the pieces jitter, and say something interesting
+        textbar.innerHTML = "My milkshake is better than yours, I can teach you but I have to charge!";
+        
     }
 
     // jsmat will be used to transform a 3D object to a specific location in the world
@@ -210,12 +224,22 @@ function my_animate() {
     // iterate over each joint of the robot independently
     for (x in robot.joints) {
 
-        // jsmat[1][3] corresponds to the y-coordinate of the position for the 3D object
-        jsmat[1][3] = 2+Math.random()*0.02;  // Math object has lots of helpful functions
+        if (!sleepModeOn){
+            // jsmat[1][3] corresponds to the y-coordinate of the position for the 3D object
+            jsmat[1][3] = 2+Math.random()*0.02;  // Math object has lots of helpful functions
+            // jsmat[2][3] corresponds to the z-coordinate of the position for the 3D object
+            jsmat[2][3] = Math.random()*0.02;
+        }
+        else {
+            jsmat[1][3] = 2;
+        }
 
-        // jsmat[2][3] corresponds to the z-coordinate of the position for the 3D object
-        jsmat[2][3] = Math.random()*0.02;
-
+        if(yTranslate!=0){
+            jsmat[1][3]+=yTranslate;
+        }
+            
+       
+        
         // convert 2D JavaScript array to the threejs format
         threemat = matrix_2Darray_to_threejs(jsmat); 
 
@@ -228,8 +252,16 @@ function my_animate() {
     // iterate over each link of the robot independently
     jsmat[0][3] = -Object.keys(robot.joints).length*spacing/2;
     for (x in robot.links) {
-        jsmat[1][3] = 1+Math.random()*0.02;
-        jsmat[2][3] = Math.random()*0.02;
+        if (!sleepModeOn){
+            jsmat[1][3] = 1+Math.random()*0.02;
+            jsmat[2][3] = Math.random()*0.02;
+        }
+        else {
+           jsmat[1][3] = 1;
+        }
+        //translate based on the up
+        jsmat[1][3] += yTranslate;
+
         threemat = matrix_2Darray_to_threejs(jsmat);
         simpleApplyMatrix(robot.links[x].geom,threemat);
         jsmat[0][3] += spacing;
