@@ -20,13 +20,9 @@ generate_rotation_matrix_Z
 
 
 
-var generate_translation_matrix = function(tx,ty,tz){
-	var translation = generate_identity(4);
-	translation[0][3] += tx;
-	translation[1][3] += ty;
-	translation[2][3] += tz;
-	return translation;
-}
+
+
+
 
 
 
@@ -112,12 +108,62 @@ var generate_identity = function(n){
 
 }
 
- var a = [[1,2],[3,4]];
- var b = [[1,2,3],[4,5,6]];
- var c = [1,2,3];
- var d = [4,5,6];
+var generate_translation_matrix = function(vec){
+	var translation = generate_identity(4);
+	translation[0][3] = vec[0];
+	translation[1][3] = vec[1];
+	translation[2][3] = vec[2];
+	return translation;
+}
+
+var generate_rotation_matrix_X = function(theta){
+	var Rx = generate_identity(4);
+	Rx[1][1] = Math.cos(theta);
+	Rx[1][2] = Math.sin(theta)*(-1.0);
+	Rx[2][1] = Math.sin(theta);
+	Rx[2][2] = Math.cos(theta);
+	return Rx;
+}
+
+var generate_rotation_matrix_Y = function(theta){
+	var Ry = generate_identity(4);
+	Ry[0][0] = Math.cos(theta);
+	Ry[0][2] = Math.sin(theta)
+	Ry[2][0] = Math.sin(theta)*(-1.0);
+	Ry[2][2] = Math.cos(theta);
+	return Ry;
+}
+
+var generate_rotation_matrix_Z = function(theta){
+	var Rz = generate_identity(4);
+	Rz[0][0] = Math.cos(theta);
+	Rz[0][1] = Math.sin(theta)*(-1.0);
+	Rz[1][0] = Math.sin(theta);
+	Rz[1][1] = Math.cos(theta);
+	return Rz;
+}
+
+
+
+var a = [[1,2],[3,4]];
+var b = [[1,2,3],[4,5,6]];
+var c = [1,2,3];
+var d = [4,5,6];
+
+var rot_x = generate_rotation_matrix_X(1.57);
+var rot_y = generate_rotation_matrix_Y(1.57);
+var rot_z = generate_rotation_matrix_Z(1.57);
+console.log(rot_x);
+console.log(rot_y);
+console.log(rot_z);
+
+
+console.log(generate_translation_matrix([3,4,5]));
+
+
 
 console.log(matrix_transpose(a));
+
 
 //console.log(vector_normalize(c))
 //console.log(matrix_multiply(a,b));

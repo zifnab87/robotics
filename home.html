@@ -21,7 +21,6 @@
 
 <!-- threejs - https://github.com/mrdoob/three.js/ - for 3D rendering -->
 <script src="js/three.min.js"></script>
-
 <!-- threejs camera controls helpers -->
 <script src="js/TrackballControls.js"></script>
 <script src="js/OrbitControls.js"></script>
@@ -38,9 +37,9 @@
 <script src="robots/robot_urdf_example.js"></script> 
 <!--
 <script src="robots/robot_crawler.js"></script> 
--->
+
 <script src="robots/robot_br2.js"></script> 
- 
+ -->
 <!-- 3jsbot includes -->
 <script src="3jsbot.js"></script> 
 
@@ -141,6 +140,7 @@ function init_robot_links() {
 
     for (x in robot.links) {
         robot.links[x].name = x;
+        robot.links[x].children = new Array();
     }
 
     // CS148: do not remove, this is used to create threejs geometries
@@ -167,6 +167,10 @@ function init_robot_joints() {
         console.log(robot.joints[x].child); // to print the child link of joints for example
 
         // CONSTRUCT KINEMATIC HIERARCHY
+        var parent_link = robot.joints[x].parent;
+        var child_link = robot.joints[x].child;
+        robot.links[parent_link].children.push(robot.joints[x].name);
+        robot.links[child_link].parent = robot.joints[x].name;
 
 
     }
@@ -189,7 +193,7 @@ function my_animate() {
     // CS148: INITIAL GETTING FAMILIAR CODE  (START HERE)
 
     // keyboard is threejs helper for reading keyboard state
-    var sleepModeOn = false;
+    /*var sleepModeOn = false;
     if (keyboard.pressed("x")) {
         textbar.innerHTML = "moving up";  // make the pieces move up
         yTranslate += 0.02;
@@ -225,11 +229,12 @@ function my_animate() {
     // Object.key(object) is a rough way to get number of keys in an object
     jsmat[0][3] = -Object.keys(robot.joints).length*spacing/2;  
 
-
+    */
+    robot_forward_kinematics();
     // iterate over each joint of the robot independently
     for (x in robot.joints) {
 
-        if (!sleepModeOn){
+       /* if (!sleepModeOn){
             // jsmat[1][3] corresponds to the y-coordinate of the position for the 3D object
             jsmat[1][3] = 2+Math.random()*0.02;  // Math object has lots of helpful functions
             // jsmat[2][3] corresponds to the z-coordinate of the position for the 3D object
@@ -249,13 +254,22 @@ function my_animate() {
         // transform 
         simpleApplyMatrix(robot.joints[x].geom,threemat);
 
-        jsmat[0][3] += spacing;
+        jsmat[0][3] += spacing;*/
+       // console.log(robot.joints[x].xform);
+       if (robot.joints[x].xform){
+            var tempmat = matrix_2Darray_to_threejs(robot.joints[x].xform);
+            simpleApplyMatrix(robot.joints[x].geom,tempmat);
+       }
+
+
     } 
 
     // iterate over each link of the robot independently
-    jsmat[0][3] = -Object.keys(robot.joints).length*spacing/2;
+    //jsmat[0][3] = -Object.keys(robot.joints).length*spacing/2;
     for (x in robot.links) {
-        if (!sleepModeOn){
+
+
+    /*    if (!sleepModeOn){
             jsmat[1][3] = 1+Math.random()*0.02;
             jsmat[2][3] = Math.random()*0.02;
         }
@@ -267,7 +281,12 @@ function my_animate() {
 
         threemat = matrix_2Darray_to_threejs(jsmat);
         simpleApplyMatrix(robot.links[x].geom,threemat);
-        jsmat[0][3] += spacing;
+        jsmat[0][3] += spacing;*/
+        // console.log(robot.links[x].xform);
+         if (robot.links[x].xform){
+            var tempmat = matrix_2Darray_to_threejs(robot.links[x].xform);
+            simpleApplyMatrix(robot.links[x].geom,tempmat);
+        }
     } 
 
 
@@ -282,7 +301,7 @@ function my_animate() {
     // DRAW ROBOT 
 
     // forward kinematics over robot links
-    //robot_forward_kinematics();
+    
 
     // HANDLE USER CONTROLS
 
@@ -312,7 +331,7 @@ function my_animate() {
     // if we have time this semester
     //robot_potential_field(x_desired);
 
-
+    
 }
 
 
