@@ -12,7 +12,7 @@
 /*
 CS148: reference code has functions for:
 
-robot_forward_kinematics
+robot_forward_kinematics 
 traverse_forward_kinematics_link
 traverse_forward_kinematics_joint
 compute_and_draw_heading

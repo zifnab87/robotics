@@ -34,22 +34,26 @@
 
 <!-- definition of robot kinematics -->
 <!-- CS148: change this script pointer to change the robot definition -->
-<!--
+
 <script src="robots/robot_urdf_example.js"></script> 
+<!--
 <script src="robots/robot_crawler.js"></script> 
 -->
 <script src="robots/robot_br2.js"></script> 
  
 <!-- 3jsbot includes -->
 <script src="3jsbot.js"></script> 
-<!--
+
 <script src="3jsbot_forward_kinematics.js"></script> 
+<!--
 <script src="3jsbot_controls.js"></script> 
 <script src="3jsbot_pd_control.js"></script> 
 <script src="3jsbot_inverse_kinematics.js"></script> 
 <script src="3jsbot_potential_field.js"></script> 
 <script src="3jsbot_rrt_connect.js"></script> 
+!-->
 <script src="3jsbot_matrix.js"></script> 
+<!--
 <script src="3jsbot_quaternion.js"></script> 
 -->
 <script src="3jsbot_threejs.js"></script> 
@@ -156,7 +160,6 @@ function init_robot_joints() {
     // NOTE: simpleApplyMatrix can be used to set threejs transform for a rendered object
 
     var x,tempmat;
-
     for (x in robot.joints) {
 
         // give the joint its name as an id
@@ -164,6 +167,8 @@ function init_robot_joints() {
         console.log(robot.joints[x].child); // to print the child link of joints for example
 
         // CONSTRUCT KINEMATIC HIERARCHY
+
+
     }
 
     // CS148: do not remove, this is used to create threejs geometries
