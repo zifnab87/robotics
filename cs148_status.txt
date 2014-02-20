@@ -1,0 +1,12 @@
+19: Wil Yegelwel 
+ 
+ Assignment 1: UNCHECKED 
+ code works properly, but need to create branches for individual assignments for completion checks
+ a check can be granted once proper branch is in place 
+ github will translate 'Assignment 1' into 'Assignment-1'. Please use 'Assignment-X' for branching of Assignment X
+ branch lables are case sensitive
+ 
+ Assignment 2: UNCHECKED
+ error: branch not found
+ 
+
