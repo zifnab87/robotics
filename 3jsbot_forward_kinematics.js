@@ -52,6 +52,18 @@ var traverse_forward_kinematics_link = function(parent_joint){
 
 
 var traverse_forward_kinematics_joint = function(parent_link){
+	if (parent_link.children !== undefined){
+		if (parent_link.children.length === 0){
+			parent_link.children = undefined;
+			return;
+		}
+	}
+	else {
+		return; 
+	}
+
+
+
 	for (var i=0; i<parent_link.children.length; i++){
 		var child_joint = robot.joints[parent_link.children[i]];
 		
@@ -63,10 +75,11 @@ var traverse_forward_kinematics_joint = function(parent_link){
 		mat_trans = matrix_multiply(mat_trans,generate_rotation_matrix_X(rot_x));
 		mat_trans = matrix_multiply(mat_trans,generate_rotation_matrix_Y(rot_y));
 		mat_trans = matrix_multiply(mat_trans,generate_rotation_matrix_Z(rot_z));
-		
-
 		child_joint.origin.xform = mat_trans;
-		child_joint.xform = matrix_multiply(mat_trans,generate_identity(4));
+		var q = quaternion_normalize(quaternion_from_axisangle(child_joint.axis,child_joint.angle));
+		var q_matrix = quaternion_to_rotation_matrix(q);
+
+		child_joint.xform = matrix_multiply(mat_trans,q_matrix);
 		traverse_forward_kinematics_link(child_joint);
 
 	}

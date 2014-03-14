@@ -53,9 +53,7 @@
 <script src="3jsbot_rrt_connect.js"></script> 
 !-->
 <script src="3jsbot_matrix.js"></script> 
-<!--
 <script src="3jsbot_quaternion.js"></script> 
--->
 <script src="3jsbot_threejs.js"></script> 
 <script src="3jsbot_userinput.js"></script> 
 
@@ -173,6 +171,8 @@ function init_robot_joints() {
         robot.links[parent_link].children.push(robot.joints[x].name);
         robot.links[child_link].parent = robot.joints[x].name;
 
+        robot.joints[x].angle = 0;
+        robot.joints[x].control = 0;
 
     }
 
