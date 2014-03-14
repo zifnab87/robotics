@@ -46,8 +46,9 @@
 <script src="3jsbot_forward_kinematics.js"></script> 
 
 <script src="3jsbot_controls.js"></script> 
-<!--
+
 <script src="3jsbot_pd_control.js"></script> 
+<!--
 <script src="3jsbot_inverse_kinematics.js"></script> 
 <script src="3jsbot_potential_field.js"></script> 
 <script src="3jsbot_rrt_connect.js"></script> 
@@ -171,8 +172,11 @@ function init_robot_joints() {
         robot.links[parent_link].children.push(robot.joints[x].name);
         robot.links[child_link].parent = robot.joints[x].name;
 
+        robot.joints[x].servo = new Object();
+        robot.joints[x].servo.k = 0.2;
         robot.joints[x].angle = 0;
         robot.joints[x].control = 0;
+
 
     }
 
@@ -316,11 +320,11 @@ function my_animate() {
     // UPDATE AUTONOMOUS CONTROLS 
 
     // proportional-derivative control 
-    /*
+    
     if (update_pd)
         robot_pd_control();
     update_pd = false;
-    */
+    
 
     // inverse kinematics
     //robot_inverse_kinematics(ik_target, "forearm_right_yaw", ik_local);
