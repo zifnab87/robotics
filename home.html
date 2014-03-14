@@ -34,18 +34,19 @@
 <!-- definition of robot kinematics -->
 <!-- CS148: change this script pointer to change the robot definition -->
 
-<script src="robots/robot_urdf_example.js"></script> 
-<!--
-<script src="robots/robot_crawler.js"></script> 
+<!-- <script src="robots/robot_urdf_example.js"></script> 
+
+<script src="robots/robot_crawler.js"></script> --> 
 
 <script src="robots/robot_br2.js"></script> 
- -->
+ 
 <!-- 3jsbot includes -->
 <script src="3jsbot.js"></script> 
 
 <script src="3jsbot_forward_kinematics.js"></script> 
-<!--
+
 <script src="3jsbot_controls.js"></script> 
+<!--
 <script src="3jsbot_pd_control.js"></script> 
 <script src="3jsbot_inverse_kinematics.js"></script> 
 <script src="3jsbot_potential_field.js"></script> 
@@ -230,7 +231,7 @@ function my_animate() {
     jsmat[0][3] = -Object.keys(robot.joints).length*spacing/2;  
 
     */
-    robot_forward_kinematics();
+    
     // iterate over each joint of the robot independently
     for (x in robot.joints) {
 
@@ -290,20 +291,24 @@ function my_animate() {
     } 
 
 
+
+
     // CS148: INITIAL GETTING FAMILIAR CODE  (END)
 
  
     // ROBOT DYNAMICS 
 
     // apply robot controls to robot configuration (assuming pure kinematics for now)
-    //robot_apply_controls();
+    robot_apply_controls();
 
     // DRAW ROBOT 
 
     // forward kinematics over robot links
-    
+    robot_forward_kinematics();
 
     // HANDLE USER CONTROLS
+
+    compute_and_draw_heading();
 
     // handle user input 
     user_input();

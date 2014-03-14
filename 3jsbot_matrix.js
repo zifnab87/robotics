@@ -32,6 +32,9 @@ var matrix_init = function(y,x){
 	var mat = new Array(y);
 	for (var j=0; j<mat.length; j++){
 		mat[j] = new Array(x);
+		for (var i=0; i<x; i++){
+			mat[j][i] = 0;
+		}
 	}
 	return mat;
 }
@@ -144,6 +147,12 @@ var generate_rotation_matrix_Z = function(theta){
 }
 
 
+var generate_rotation_matrix = function(angles_vec){
+	var res = generate_rotation_matrix_X(angles_vec[0]);
+	res = matrix_multiply(res, generate_rotation_matrix_Y(angles_vec[1]));
+	res = matrix_multiply(res,generate_rotation_matrix_Z(angles_vec[2]));
+	return res;
+}
 
 var a = [[1,2],[3,4]];
 var b = [[1,2,3],[4,5,6]];

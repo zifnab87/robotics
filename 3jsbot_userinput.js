@@ -50,7 +50,7 @@ function user_input() {
         robot.joints[active_joint].control += -0.01;  // add motion increment 
     }
 
-    /* CS148: user input for base movement
+    /* CS148: user input for base movement */
     // move robot base in the ground plane
     if ( keyboard.pressed("a") ) {  // turn
         robot.control.rpy[1] += 0.1;
@@ -71,7 +71,6 @@ function user_input() {
     }
     if ( keyboard.pressed("q") ) {  // strafe
         //robot.origin.xyz[0] += 0.1; // simple but ineffective: not aligned with robot
-
         robot.control.xyz[2] += 0.1 * (robot_lateral[2][0]-robot.origin.xyz[2]);
         robot.control.xyz[0] += 0.1 * (robot_lateral[0][0]-robot.origin.xyz[0]);
     }
