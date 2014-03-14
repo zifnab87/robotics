@@ -22,6 +22,7 @@ var quaternion_multiply = function(q,r){
 
 var quaternion_normalize = function(q){
 	var norm = Math.sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*[2]+q[3]*q[3]);
+	console.log(norm);
 	q[0] /= norm;
 	q[1] /= norm;
 	q[2] /= norm;
@@ -32,9 +33,9 @@ var quaternion_normalize = function(q){
 var quaternion_from_axisangle = function (axis_vec,angle){
 	var q = new Array(4);
 	q[0] = Math.cos(angle/2.0);
-	q[1] = Math.sin(angle/2.0)*Math.cos(axis_vec[0]);
-	q[2] = Math.sin(angle/2.0)*Math.cos(axis_vec[1]);
-	q[3] = Math.sin(angle/2.0)*Math.cos(axis_vec[2]);
+	q[1] = Math.sin(angle/2.0)*axis_vec[0];
+	q[2] = Math.sin(angle/2.0)*axis_vec[1];
+	q[3] = Math.sin(angle/2.0)*axis_vec[2];
 	return q;
 }
 
