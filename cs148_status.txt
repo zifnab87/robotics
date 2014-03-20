@@ -9,4 +9,7 @@
  Assignment 2: CHECK 
  warning: joint selection key commands not handling tree extents
  
+ Assignment 3: CHECK
+ comment: servo overstiff, ki is a bit much
+ 
 
