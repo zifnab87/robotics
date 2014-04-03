@@ -71,6 +71,9 @@ robot.joints.clavicle_left_roll = {parent:"base", child:"clavicle_left"};
 robot.joints.clavicle_left_roll.origin = {xyz: [-0.3,0.4,0.0], rpy:[-Math.PI/2,0,0]};
 robot.joints.clavicle_left_roll.axis = [0.0,0.0,1.0]; 
 
+
+robot.endeff_connection_joint = "forearm_right_yaw"; // the link the endeffector 
+
 //////////////////////////////////////////////////
 /////     DEFINE LINK threejs GEOMETRIES
 //////////////////////////////////////////////////

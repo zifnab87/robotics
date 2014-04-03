@@ -48,8 +48,9 @@
 <script src="3jsbot_controls.js"></script> 
 
 <script src="3jsbot_pd_control.js"></script> 
-<!--
+
 <script src="3jsbot_inverse_kinematics.js"></script> 
+<!--
 <script src="3jsbot_potential_field.js"></script> 
 <script src="3jsbot_rrt_connect.js"></script> 
 !-->
@@ -117,6 +118,8 @@ function my_init() {
 
     // CS148: INITIAL GETTING FAMILIAR CODE  (END HERE)
 
+
+
 }
 
 
@@ -131,7 +134,10 @@ function init_robot() {
     init_robot_joints();
 
     // initialize inverse kinematics target location 
-    ik_target = [[0],[0.8],[1.0],[1]];
+    ik_target = [[0],[1.0],[1.0],[0]];
+
+    // initialize inverse kinematics endeffector location 
+    ik_local = [[0],[0],[0.5],[1]];
 
 }
 
@@ -239,28 +245,6 @@ function my_animate() {
     // iterate over each joint of the robot independently
     for (x in robot.joints) {
 
-       /* if (!sleepModeOn){
-            // jsmat[1][3] corresponds to the y-coordinate of the position for the 3D object
-            jsmat[1][3] = 2+Math.random()*0.02;  // Math object has lots of helpful functions
-            // jsmat[2][3] corresponds to the z-coordinate of the position for the 3D object
-            jsmat[2][3] = Math.random()*0.02;
-        }
-        else {
-            jsmat[1][3] = 2;
-        }
-
-        jsmat[1][3]+=yTranslate;
-            
-       
-        
-        // convert 2D JavaScript array to the threejs format
-        threemat = matrix_2Darray_to_threejs(jsmat); 
-
-        // transform 
-        simpleApplyMatrix(robot.joints[x].geom,threemat);
-
-        jsmat[0][3] += spacing;*/
-       // console.log(robot.joints[x].xform);
        if (robot.joints[x].xform){
             var tempmat = matrix_2Darray_to_threejs(robot.joints[x].xform);
             simpleApplyMatrix(robot.joints[x].geom,tempmat);
@@ -273,26 +257,21 @@ function my_animate() {
     //jsmat[0][3] = -Object.keys(robot.joints).length*spacing/2;
     for (x in robot.links) {
 
-
-    /*    if (!sleepModeOn){
-            jsmat[1][3] = 1+Math.random()*0.02;
-            jsmat[2][3] = Math.random()*0.02;
-        }
-        else {
-           jsmat[1][3] = 1;
-        }
-        //translate based on the up
-        jsmat[1][3] += yTranslate;
-
-        threemat = matrix_2Darray_to_threejs(jsmat);
-        simpleApplyMatrix(robot.links[x].geom,threemat);
-        jsmat[0][3] += spacing;*/
-        // console.log(robot.links[x].xform);
-         if (robot.links[x].xform){
+        if (robot.links[x].xform){
             var tempmat = matrix_2Darray_to_threejs(robot.links[x].xform);
             simpleApplyMatrix(robot.links[x].geom,tempmat);
         }
     } 
+
+    //target transformation
+    var transformation = generate_identity(4);
+    transformation[0][3] = ik_target[0][0];
+    transformation[1][3] = ik_target[1][0];
+    transformation[2][3] = ik_target[2][0];
+    var tempmat = matrix_2Darray_to_threejs(transformation);
+    simpleApplyMatrix(target_geom,tempmat);
+
+    
 
 
 
@@ -325,9 +304,9 @@ function my_animate() {
         robot_pd_control();
     update_pd = false;
     
-
+    
     // inverse kinematics
-    //robot_inverse_kinematics(ik_target, "forearm_right_yaw", ik_local);
+    robot_inverse_kinematics(ik_target, robot.endeff_connection_joint, ik_local);
 
     // configuration space motion planning
     //robot_rrt_connect(q_desired);
