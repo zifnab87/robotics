@@ -52,7 +52,16 @@ var matrix_multiply = function(matA,matB) {
 		}
 	}
 	return mat;
+}
 
+var matrix_num_multiply = function(num,mat){
+	var result = matrix_init(mat.length,mat[0].length);
+	for (var j=0; j<mat.length; j++){ 
+		for (var i=0; i<mat[0].length; i++){
+			result[j][i] =  num*mat[j][i];
+		}
+	}
+	return result;
 }
 
 var matrix_transpose = function(mat){
@@ -153,6 +162,33 @@ var generate_rotation_matrix = function(angles_vec){
 	res = matrix_multiply(res,generate_rotation_matrix_Z(angles_vec[2]));
 	return res;
 }
+
+var vector_diff = function(v1,v2){
+	var res = new Array(v1.length);
+	for (var i=0; i<v1.length; i++){
+		res[i] = v1[i] - v2[i];
+	}
+	return res;
+}
+
+var vec_to_mat = function(vec){ 
+	var mat = matrix_init(vec.length,1);
+	for (var i=0; i<vec.length; i++){
+		mat[i][0] = vec[i];
+	}
+	return mat;
+}
+
+var mat_to_vec = function(mat){ // mat(N,1)
+	var vec = new Array(mat.length);
+	for (var i=0; i<vec.length; i++){
+		vec[i] = mat[i][0];
+	}
+	return vec;
+}
+
+
+
 
 var a = [[1,2],[3,4]];
 var b = [[1,2,3],[4,5,6]];
