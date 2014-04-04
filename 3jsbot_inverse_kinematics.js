@@ -116,9 +116,20 @@ function iterate_inverse_kinematics(target_pos, endeffector_joint, endeffector_l
 	var d_x = [diff_x[0], diff_x[1], diff_x[2], 0, 0, 0]; // zeros for the angular velocities errors 
 
 	var alpha = 0.03;
-	var d_theta =  matrix_num_multiply(alpha,matrix_multiply(matrix_transpose(jacobian),vec_to_mat(d_x)));
-	var d_theta_vec = mat_to_vec(d_theta);
 
+	var jac_transpose = matrix_transpose(jacobian);
+	var jac_pseudoinverse = matrix_multiply(numeric.inv(matrix_multiply(jac_transpose,jacobian)),jac_transpose);
+	
+
+	//TRANSPOSE JACOBIAN - Uncomment next line, Comment the other one
+	//var d_theta =  matrix_num_multiply(alpha,matrix_multiply(jac_transpose,vec_to_mat(d_x)));
+	//PSEUDOINVERSE JACOBIAN - Uncomment next line, Comment the other one
+	var d_theta = matrix_num_multiply(alpha,matrix_multiply(jac_pseudoinverse,vec_to_mat(d_x)));
+	
+
+
+
+	var d_theta_vec = mat_to_vec(d_theta);
 	var col = 0;
 	while(joints_stack2.length !== 0){
 		current_joint = joints_stack2.pop();
