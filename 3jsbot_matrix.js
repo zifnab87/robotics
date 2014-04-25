@@ -78,10 +78,11 @@ var matrix_transpose = function(mat){
 //assume row-vector
 var vector_normalize = function(vec){
 	var norm = vector_norm(vec);
+	var res = new Array(vec.length);
 	for (var i=0; i<vec.length; i++){
-		vec[i] = vec[i] / norm;
+		res[i] = vec[i] / norm;
 	}
-	return vec;
+	return res;
 }
 
 var vector_norm = function(vec){ //assume row-vector
@@ -102,6 +103,21 @@ var vector_cross = function(vec1, vec2) {
 
 	return cross;
 }
+
+var vector_add = function(vec1,vec2){
+	var result = new Array(vec1.length);
+	result[0] = vec1[0] + vec2[0];
+	result[1] = vec1[1] + vec2[1];
+	return result;
+}
+
+var vector_mult_scalar = function(vec,scalar){
+	var result = new Array(vec.length);
+	result[0] = vec[0]*scalar;
+	result[1] = vec[1]*scalar;
+	return result;
+}
+
 
 
 var generate_identity = function(n){
