@@ -327,7 +327,7 @@ function rrt_planning_iteration(path){
     if (rrt_extend(qrand,qnew,tree1) !== "trapped"){
         var qnew2 = vertex_init([0,0]);
         if (rrt_connect(qnew,qnew2,tree2) === "reached"){
-            console.log("reached");
+            //console.log("reached");
             rrt_iterate = false;
             return find_path(tree1,tree2);
         }
@@ -430,7 +430,7 @@ function new_config(q, qnear, qnew) {
 
     }
     else {
-        console.log(q);
+        //console.log(q);
         var diff_vec = vector_diff(q,qnear);
         var normalized_vec = vector_normalize(diff_vec);
         var scaled_vec = vector_mult_scalar(normalized_vec,epsilon);
@@ -449,7 +449,7 @@ function rrt_extend(q, qnew, tree){
     var qnear = nearest_neighbor(q, tree);
 
     if (new_config(q,qnear,qnew)){
-        console.log("rrt_extend_in1");
+       // console.log("rrt_extend_in1");
         if (vertex_equality(qnew,q)){
             qnew = q; //hack
         }
